@@ -1,0 +1,9 @@
+[package]
+name = "mocha"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = "4.5.4"
+nom = "7.1.3"
+
