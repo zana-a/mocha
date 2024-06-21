@@ -2,6 +2,7 @@ use nom::branch::alt;
 use nom::bytes::complete::tag;
 use nom::character::complete::multispace0;
 use nom::character::complete::multispace1;
+use nom::combinator::all_consuming;
 use nom::sequence::delimited;
 use nom::sequence::pair;
 use nom::sequence::preceded;
@@ -52,20 +53,22 @@ fn _equals(input: &str) -> ParseResult<&str, &str> {
 }
 
 fn _value(input: &str) -> ParseResult<&str, Boolean> {
-    terminated(boolean, delimited(multispace0, tag(";"), multispace0))(input)
+    terminated(boolean, terminated(multispace0, tag(";")))(input)
 }
 
 pub fn assign(input: &str) -> ParseResult<&str, Assign> {
-    pair(terminated(pair(_solidity, _identifier), _equals), _value)(input).map(
-        |(remaining, ((solidity, identifier), value))| {
-            (
-                remaining,
-                Assign {
-                    solidity,
-                    identifier,
-                    value,
-                },
-            )
-        },
-    )
+    all_consuming(pair(
+        terminated(pair(_solidity, _identifier), _equals),
+        _value,
+    ))(input)
+    .map(|(remaining, ((solidity, identifier), value))| {
+        (
+            remaining,
+            Assign {
+                solidity,
+                identifier,
+                value,
+            },
+        )
+    })
 }
