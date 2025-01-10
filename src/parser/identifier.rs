@@ -9,8 +9,8 @@ use nom::sequence::pair;
 use crate::prelude::ParseResult;
 
 #[derive(Debug)]
-pub struct Identifier<'a> {
-    pub value: &'a str,
+pub struct Identifier {
+    pub value: String,
 }
 
 fn alphabetic(input: &str) -> ParseResult<&str, &str> {

@@ -15,16 +15,16 @@ use crate::parser::identifier::Identifier;
 use crate::prelude::ParseResult;
 
 #[derive(Debug)]
-pub enum Solidity<'a> {
+pub enum Solidity {
     Const,
     Var,
-    Type(Identifier<'a>),
+    Type(Identifier),
 }
 
 #[derive(Debug)]
-pub struct Assign<'a> {
-    pub solidity: Solidity<'a>,
-    pub identifier: Identifier<'a>,
+pub struct Assign {
+    pub solidity: Solidity,
+    pub identifier: Identifier,
     pub value: Boolean,
 }
 
